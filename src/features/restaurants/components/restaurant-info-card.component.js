@@ -1,10 +1,13 @@
-import React from "react";
+import React, { memo } from "react";
 import { SvgXml } from "react-native-svg";
+import { View } from "react-native";
 
 import star from "../../../../assets/stars";
 import open from "../../../../assets/open";
 import { Spacer } from "../../../components/spacer/spacer.component";
+import { Favourite } from "../../../components/favourites/favourite.component";
 import { Text } from "../../../components/typography/text.component";
+
 import {
   Address,
   Icon,
@@ -16,7 +19,7 @@ import {
   SectionEnd,
 } from "./restaurant-info-styles";
 
-export const RestaurantInfoCard = ({ restaurant = {} }) => {
+const RestaurantInfo = ({ restaurant = {} }) => {
   const {
     name = "The Base Lounge",
     icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
@@ -33,7 +36,10 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
 
   return (
     <RestaurantCard elevation={5}>
-      <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
+      <View>
+        <Favourite restaurant={restaurant} />
+        <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
+      </View>
       <Info>
         <Text variant="label">{name}</Text>
         <Section>
@@ -59,3 +65,5 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
     </RestaurantCard>
   );
 };
+
+export const RestaurantInfoCard = memo(RestaurantInfo);
