@@ -47,3 +47,11 @@ export const ErrorContainer = styled.Text`
   width: 100%;
   color: ${(props) => props.theme.colors.ui.error};
 `;
+
+export const AnimationWrapper = styled.View`
+  width: 100%;
+  height: 40%;
+  position: absolute;
+  padding: ${(props) => props.theme.space[2]};
+  top: 30px;
+`;

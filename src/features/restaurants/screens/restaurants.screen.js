@@ -9,6 +9,7 @@ import { Loader } from "../../../utils/Loader";
 import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
 import { Search } from "../components/search.component";
 import { RestaurantList } from "./restaurants.screen.styles";
+import { FadeInView } from "../../../components/animation/fade.animation";
 
 export const RestaurantsScreens = ({ navigation }) => {
   const { restaurants, loading } = useContext(RestaurantsContext);
@@ -42,7 +43,9 @@ export const RestaurantsScreens = ({ navigation }) => {
                 }
               >
                 <Spacer position="bottom" size="large">
-                  <RestaurantInfoCard restaurant={item} />
+                  <FadeInView>
+                    <RestaurantInfoCard restaurant={item} />
+                  </FadeInView>
                 </Spacer>
               </TouchableOpacity>
             </>
