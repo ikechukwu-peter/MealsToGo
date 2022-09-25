@@ -9,6 +9,7 @@ import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info
 import { RestaurantList } from "../../restaurants/screens/restaurants.screen.styles";
 
 const TextContainer = styled.View`
+  flex: 1;
   align-items: center;
   justify-content: center;
 `;
