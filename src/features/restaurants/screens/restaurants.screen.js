@@ -10,12 +10,17 @@ import { RestaurantInfoCard } from "../components/restaurant-info-card.component
 import { Search } from "../components/search.component";
 import { RestaurantList } from "./restaurants.screen.styles";
 import { FadeInView } from "../../../components/animation/fade.animation";
+import { LocationContext } from "../../../services/location/location.context";
+import { Text } from "../../../components/typography/text.component";
 
 export const RestaurantsScreens = ({ navigation }) => {
-  const { restaurants, loading } = useContext(RestaurantsContext);
+  const { restaurants, loading, error } = useContext(RestaurantsContext);
+  const { error: locationError } = useContext(LocationContext);
   const { favourites } = useContext(FavouritesContext);
 
   const [isToggled, setIsToggled] = useState(false);
+
+  console.log(!!locationError, !!error, "ERRORS");
 
   return (
     <SafeArea>
@@ -30,28 +35,43 @@ export const RestaurantsScreens = ({ navigation }) => {
         />
       )}
 
+      {!!locationError ||
+        (!!error && (
+          <Spacer position="left" size="large">
+            <Text variant="error">
+              Something went wrong while retrieving data
+            </Text>
+          </Spacer>
+        ))}
+
       {loading ? (
         <Loader />
       ) : (
-        <RestaurantList
-          data={restaurants}
-          renderItem={({ item }) => (
-            <>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("RestaurantDetail", { restaurant: item })
-                }
-              >
-                <Spacer position="bottom" size="large">
-                  <FadeInView>
-                    <RestaurantInfoCard restaurant={item} />
-                  </FadeInView>
-                </Spacer>
-              </TouchableOpacity>
-            </>
+        <>
+          {!error && !locationError && (
+            <RestaurantList
+              data={restaurants}
+              renderItem={({ item }) => (
+                <>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("RestaurantDetail", {
+                        restaurant: item,
+                      })
+                    }
+                  >
+                    <Spacer position="bottom" size="large">
+                      <FadeInView>
+                        <RestaurantInfoCard restaurant={item} />
+                      </FadeInView>
+                    </Spacer>
+                  </TouchableOpacity>
+                </>
+              )}
+              keyExtractor={(item) => item.name}
+            />
           )}
-          keyExtractor={(item) => item.name}
-        />
+        </>
       )}
     </SafeArea>
   );
